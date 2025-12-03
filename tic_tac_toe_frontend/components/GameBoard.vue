@@ -10,10 +10,19 @@ const winner = ref<Player | ''>('')
 const isDraw = ref(false)
 const gameOver = computed(() => winner.value !== '' || isDraw.value)
 
+// Map players to chess piece emoji with theme-aligned variants
+function pieceFor(player: Player, filled = true) {
+  // Knight for X: use white/black variants for contrast
+  if (player === 'X') return filled ? '♘' : '♞'
+  // Queen for O
+  return filled ? '♕' : '♛'
+}
+
+// Status message uses chess piece instead of raw letters
 const statusMessage = computed(() => {
-  if (winner.value) return `Winner: ${winner.value} 🎉`
+  if (winner.value) return `Winner: ${pieceFor(winner.value)} 🎉`
   if (isDraw.value) return "It's a draw 🤝"
-  return `Next player: ${currentPlayer.value}`
+  return `Next player: ${pieceFor(currentPlayer.value)}`
 })
 
 function calculateWinner(b: Cell[]): Player | '' {
@@ -115,7 +124,14 @@ onMounted(() => {
         <div class="ttt-current">
           <span class="eyebrow">Current Player</span>
           <div class="player-chip" :class="currentPlayer">
-            {{ currentPlayer }}
+            <!-- Show piece in chip -->
+            <span class="piece" :class="currentPlayer">
+              {{ pieceFor(currentPlayer) }}
+            </span>
+            <span class="sr-only">
+              <!-- Screen reader friendly name -->
+              {{ currentPlayer === 'X' ? 'Knight' : 'Queen' }}
+            </span>
           </div>
         </div>
         <div
@@ -138,7 +154,7 @@ onMounted(() => {
           ref="cellRefs"
           class="ttt-cell"
           role="gridcell"
-          :aria-label="cell ? `Cell ${i + 1}, ${cell}` : `Cell ${i + 1}, empty`"
+          :aria-label="cell ? `Cell ${i + 1}, ${cell === 'X' ? 'Knight' : 'Queen'}` : `Cell ${i + 1}, empty`"
           :aria-disabled="gameOver || !!cell"
           :disabled="gameOver || !!cell"
           @click="playMove(i)"
@@ -149,7 +165,10 @@ onMounted(() => {
             :class="cell"
             aria-hidden="true"
           >
-            {{ cell }}
+            <!-- Render chess piece instead of X/O -->
+            <template v-if="cell === 'X'">♘</template>
+            <template v-else-if="cell === 'O'">♕</template>
+            <template v-else>&nbsp;</template>
           </span>
         </button>
       </div>
@@ -180,6 +199,15 @@ onMounted(() => {
   --ocean-text: #E6EDF3;
   --ocean-muted: #9CA3AF;
   --ocean-border: #23324d;
+}
+
+/* Visually hidden helper for screen readers */
+.sr-only {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0);
+  white-space: nowrap; border: 0;
 }
 
 /* Wrapper centers the panel and provides gradient ambience */
@@ -221,6 +249,7 @@ onMounted(() => {
   align-content: start;
 }
 .player-chip {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -236,6 +265,14 @@ onMounted(() => {
 }
 .player-chip.X { box-shadow: 0 6px 18px rgba(37, 99, 235, 0.25); border-color: rgba(37, 99, 235, 0.45); }
 .player-chip.O { box-shadow: 0 6px 18px rgba(245, 158, 11, 0.25); border-color: rgba(245, 158, 11, 0.45); }
+
+/* piece display inside chip */
+.piece {
+  font-size: 20px;
+  line-height: 1;
+}
+.piece.X { color: var(--ocean-primary); text-shadow: 0 4px 14px rgba(37,99,235,0.35); }
+.piece.O { color: var(--ocean-secondary); text-shadow: 0 4px 14px rgba(245,158,11,0.35); }
 
 .ttt-message {
   justify-self: end;
