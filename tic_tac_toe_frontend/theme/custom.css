@@ -1,43 +1,43 @@
 :root {
   /* Core dark palette — neutral blue/purple accent */
-  --theme-bg-canvas: #1A1B1F;       /* dark charcoal canvas */
-  --theme-bg-elevated: #21222A;     /* cards/surfaces */
-  --theme-bg-elev-1: #21222A;
-  --theme-bg-elev-2: #282931;
-  --theme-bg-elev-3: #2F3039;
-  --theme-bg-sidebar: #161719;
+  --theme-bg-canvas: #0B1220; /* darkened to better match Ocean Professional */
+  --theme-bg-elevated: #111522;
+  --theme-bg-elev-1: #111522;
+  --theme-bg-elev-2: #0f1421;
+  --theme-bg-elev-3: #0d121d;
+  --theme-bg-sidebar: #0a0f19;
 
-  --theme-text-primary: #F4F4F5;
-  --theme-text-secondary: #C9C9CF;
-  --theme-text-muted: #9C9CA3;
+  --theme-text-primary: #E6EDF3;
+  --theme-text-secondary: #AAB3BF;
+  --theme-text-muted: #94A3B8;
   --theme-icon-muted: #8B8B92;
 
-  --theme-border-subtle: #34353A;
-  --theme-border-strong: #43444A;
+  --theme-border-subtle: #1e2a40;
+  --theme-border-strong: #2a3956;
 
-  /* Primary brand – Blue/Purple */
-  --theme-primary-600: #5B6FDB;
-  --theme-primary-500: #6B7FEB;
-  --theme-primary-400: #8B9FFB;
-  --theme-primary-300: #A8B7FF;
-  --theme-primary-200: #C8D1FF;
-  --theme-primary-50:  #EEF0FF;
+  /* Primary brand – Ocean Professional palette */
+  --theme-primary-600: #2563EB; /* primary */
+  --theme-primary-500: #3B82F6;
+  --theme-primary-400: #60A5FA;
+  --theme-primary-300: #93C5FD;
+  --theme-primary-200: #BFDBFE;
+  --theme-primary-50:  #EFF6FF;
 
-  /* Accent aliases for backwards compatibility */
+  /* Accent aliases */
   --theme-accent: var(--theme-primary-500);
   --theme-accent-strong: var(--theme-primary-600);
 
-  /* Semantic */
-  --theme-success: #40D79E;
-  --theme-warning: #FFC75A;
-  --theme-danger:  #FF6B6B;
-  --theme-info:    #6EB9FF;
+  /* Semantic (align with request: success -> secondary amber, error -> red) */
+  --theme-success: #F59E0B;
+  --theme-warning: #F59E0B;
+  --theme-danger:  #EF4444;
+  --theme-info:    #60A5FA;
 
   /* Controls */
-  --theme-btn-primary-fg: #1A1B1F;
+  --theme-btn-primary-fg: #0B1220;
   --theme-btn-primary-bg: var(--theme-primary-500);
   --theme-btn-primary-hover: var(--theme-primary-600);
-  --theme-btn-primary-press: #4B5FCB;
+  --theme-btn-primary-press: #1D4ED8;
   --theme-btn-ghost-fg: var(--theme-text-secondary);
   --theme-btn-ghost-hover-bg: var(--theme-bg-elev-2);
   --theme-chip-bg: var(--theme-bg-elev-2);
@@ -46,10 +46,10 @@
   --theme-chip-active-fg: var(--theme-text-primary);
 
   /* Focus and overlays */
-  --theme-focus-ring: var(--theme-primary-400);
-  --theme-overlay-ambient: linear-gradient(180deg, rgba(107,127,235,0.18) 0%, rgba(0,0,0,0) 55%);
+  --theme-focus-ring: var(--theme-primary-300);
+  --theme-overlay-ambient: linear-gradient(180deg, rgba(37,99,235,0.18) 0%, rgba(0,0,0,0) 55%);
 
-  /* Lines (generic fallbacks still supported) */
+  /* Lines */
   --line-subtle: var(--theme-border-subtle);
   --line: var(--theme-border-subtle);
   --line-strong: var(--theme-border-strong);
@@ -64,16 +64,9 @@
   --text-inverted: #0D0F14;
   --text-link: var(--theme-primary-300);
 
-  /* Accent family retained for charts and cool highlights if needed */
-  --accent-primary: var(--theme-primary-500);
-  --accent-primary-600: var(--theme-primary-600);
-  --accent-primary-400: var(--theme-primary-400);
-  --accent-secondary: #17D1D4;
-  --accent-warm: #FF5C8A;
-
-  /* Gradients: primary brand */
+  /* Gradients */
   --grad-primary: linear-gradient(135deg, var(--theme-primary-600) 0%, var(--theme-primary-400) 50%, var(--theme-primary-300) 100%);
-  --grad-hero: radial-gradient(1200px 600px at 60% -10%, rgba(107,127,235,0.22) 0%, rgba(139,159,251,0.15) 35%, rgba(26,27,31,0) 70%);
+  --grad-hero: radial-gradient(1200px 600px at 60% -10%, rgba(37, 99, 235, 0.20) 0%, rgba(96, 165, 250, 0.14) 35%, rgba(11,18,32,0) 70%);
 }
 
 /* Base */
@@ -164,7 +157,8 @@ a:hover {
   padding: 12px 20px;
   font-weight: 700;
   cursor: pointer;
-  box-shadow: 0 8px 24px rgba(107,127,235,0.25);
+  box-shadow: 0 8px 24px rgba(37,99,235,0.25);
+  transition: transform 140ms ease, background 140ms ease;
 }
 .button:hover, .btn-primary:hover {
   background: var(--theme-btn-primary-hover);
@@ -220,7 +214,36 @@ a:hover {
   color: var(--theme-text-secondary);
 }
 
-/* Helpers */
+/* Helpers used by Tic Tac Toe slide */
+.ttt-container {
+  display: grid;
+  gap: 12px;
+  justify-items: center;
+  width: min(900px, 96vw);
+  margin: 0 auto;
+}
+.ttt-header .ttt-title {
+  margin: 0;
+  font-size: clamp(28px, 4.2vw, 48px);
+  background: var(--grad-primary);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 6px 26px rgba(37,99,235,0.18);
+}
+.ttt-header .ttt-subtitle {
+  margin: 6px 0 0;
+  color: var(--theme-text-secondary);
+}
+.ttt-game-surface {
+  width: 100%;
+}
+.ttt-footer {
+  margin-top: 6px;
+  font-size: 14px;
+}
+
+/* Existing helpers */
 .grid-2 {
   display: grid;
   grid-template-columns: 1.2fr 1fr;
@@ -298,7 +321,7 @@ a:hover {
   font-size: 12px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  margin-bottom: 10px;
+  margin-bottom: 6px;
 }
 
 .feature-title {
@@ -490,7 +513,7 @@ code, pre code, .slidev-code {
   grid-template-columns: 1.2fr 0.8fr;
   gap: 16px;
   align-items: center;
-  background: linear-gradient(180deg, rgba(107,127,235,0.08), rgba(139,159,251,0.06));
+  background: linear-gradient(180deg, rgba(37,99,235,0.08), rgba(96,165,250,0.06));
   border: 1px solid var(--theme-border-subtle);
   border-radius: 16px;
   padding: 24px;

@@ -1,2 +1,8 @@
 /* style.css */
 @import "./theme/custom.css";
+
+/* Additional small helpers for the Tic Tac Toe slide context */
+.tic-wrapper {
+  display: grid;
+  justify-items: center;
+}
