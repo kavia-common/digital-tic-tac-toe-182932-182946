@@ -12,8 +12,7 @@ transition: fade
 fonts:
   sans: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial
   mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace
-css: |
-  @import "./style.css";
+css: ./style.css
 ---
 
 layout: center
